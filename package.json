@@ -1,0 +1,28 @@
+{
+  "name": "cubicle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "SET NODE_ENV=development && nodemon ./index.js",
+    "prod": "SET NODE_ENV=production && node ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ASlAtanasov/Cubicle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ASlAtanasov/Cubicle/issues"
+  },
+  "homepage": "https://github.com/ASlAtanasov/Cubicle#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
