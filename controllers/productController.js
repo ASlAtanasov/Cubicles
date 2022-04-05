@@ -14,4 +14,10 @@ router.get('/create', (req, res) => {
     res.render('details', {title: 'Product Details'});
 });
 
+router.post('/create', (req, res) => {
+    console.log('created');
+
+    res.redirect('/products');
+});
+
 module.exports = router;
