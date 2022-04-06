@@ -1,12 +1,27 @@
 const uniqid = require('uniqid');
 const Cube = require('../models/cube.js');
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
 
 let productsData = require('../config/products.json');
+const { search } = require('../controllers/productController.js');
 
-function getAll() {
-    return productsData;
+function getAll(query) {
+    let result = productsData;
+
+    if (query.search) {
+        result = result.filter(x => x.name.toLowerCase().includes(query.search));
+    }
+
+    if(query.from) {
+        result = result.filter(x => Number(x.level) >= query.from)
+    }
+
+    if(query.to) {
+        result = result.filter(x => Number(x.level) <= query.to)
+    }
+
+    return result;
 };
 
 function getOne(id) {
@@ -29,11 +44,16 @@ function create(data, callback) {
 
     // по-добре да се използва библиотеката path за указване на пътя, а не __dirname
     // fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), (err) => {
-    fs.writeFile(
+    // fs.writeFile(
+    //     path.join(__dirname, '../config/products.json'),
+    //     JSON.stringify(productsData),
+    //     callback
+    // );
+
+    return fs.writeFile(
         path.join(__dirname, '../config/products.json'),
-        JSON.stringify(productsData),
-        callback
-    );
+        JSON.stringify(productsData)
+    )
 };
 
 module.exports = {
