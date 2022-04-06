@@ -14,7 +14,7 @@ function getOne(id) {
     return productsData.find(x => x.id == id);
 };
 
-function create(data) {
+function create(data, callback) {
     let cube = new Cube(
         uniqid(),
         data.name,
@@ -29,12 +29,11 @@ function create(data) {
 
     // по-добре да се използва библиотеката path за указване на пътя, а не __dirname
     // fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), (err) => {
-    fs.writeFile(path.join(__dirname, '../config/products.json'), JSON.stringify(productsData), (err) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-    });
+    fs.writeFile(
+        path.join(__dirname, '../config/products.json'),
+        JSON.stringify(productsData),
+        callback
+    );
 };
 
 module.exports = {

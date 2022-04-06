@@ -20,10 +20,15 @@ router.post('/create', validateProduct, (req, res) => {
     // if(req.body.name.length) {
 
     // }
+    productService.create(req.body, (err) => {
+        if (err) {
+            return res.status(500).end();
+        }
 
-    productService.create(req.body)
+        productService.create(req.body);
 
-    res.redirect('/products');
+        res.redirect('/products');
+    });
 });
 
 router.get('/details/:productId', (req, res) => {
