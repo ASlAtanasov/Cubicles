@@ -1,18 +1,23 @@
 const uniqid = require('uniqid');
 const Cube = require('../models/cube.js');
 const fs = require('fs');
-let productsData = require('../config/products.json');
 const path = require('path');
+
+let productsData = require('../config/products.json');
 
 function getAll() {
     return productsData;
 };
 
-function create(data) {
-   
+function getOne(id) {
+    console.log(productsData);
+    return productsData.find(x => x.id == id);
+};
 
+function create(data) {
     let cube = new Cube(
-        uniqid(), data.name,
+        uniqid(),
+        data.name,
         data.description,
         data.imageUrl,
         data.difficultyLevel
@@ -20,9 +25,12 @@ function create(data) {
 
     productsData.push(cube);
 
-        // по-добре да се използва библиотеката path за указване на пътя, а не __dirname
-    fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), (err) =>{
-        if(err) {
+    path.join(__dirname, '/../config/products.json')
+
+    // по-добре да се използва библиотеката path за указване на пътя, а не __dirname
+    // fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), (err) => {
+    fs.writeFile(path.join(__dirname, '../config/products.json'), JSON.stringify(productsData), (err) => {
+        if (err) {
             console.log(err);
             return;
         }
@@ -32,4 +40,5 @@ function create(data) {
 module.exports = {
     create,
     getAll,
+    getOne,
 };
