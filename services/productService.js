@@ -2,34 +2,33 @@ const uniqid = require('uniqid');
 const Cube = require('../models/cube.js');
 const fs = require('fs/promises');
 const path = require('path');
-
-let productsData = require('../config/products.json');
-const { search } = require('../controllers/productController.js');
+const productData = require('../data/productData.js');
 
 function getAll(query) {
-    let result = productsData;
+    let products = productData.getAll();
 
     if (query.search) {
-        result = result.filter(x => x.name.toLowerCase().includes(query.search));
+        products = products.filter(x => x.name.toLowerCase().includes(query.search));
     }
 
-    if(query.from) {
-        result = result.filter(x => Number(x.level) >= query.from)
+    if (query.from) {
+        products = products.filter(x => Number(x.level) >= query.from)
     }
 
-    if(query.to) {
-        result = result.filter(x => Number(x.level) <= query.to)
+    if (query.to) {
+        products = products.filter(x => Number(x.level) <= query.to)
     }
 
-    return result;
+    return products;
 };
 
 function getOne(id) {
     console.log(productsData);
-    return productsData.find(x => x.id == id);
+   // return productsData.find(x => x.id == id);
+    return productData.getOne(id);
 };
 
-function create(data, callback) {
+function create(data, /* callback*/) {
     let cube = new Cube(
         uniqid(),
         data.name,
@@ -38,9 +37,9 @@ function create(data, callback) {
         data.difficultyLevel
     );
 
-    productsData.push(cube);
+    // productsData.push(cube);
 
-    path.join(__dirname, '/../config/products.json')
+    // path.join(__dirname, '/../config/products.json')
 
     // по-добре да се използва библиотеката path за указване на пътя, а не __dirname
     // fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), (err) => {
@@ -50,10 +49,12 @@ function create(data, callback) {
     //     callback
     // );
 
-    return fs.writeFile(
-        path.join(__dirname, '../config/products.json'),
-        JSON.stringify(productsData)
-    )
+    // return fs.writeFile(
+    //     path.join(__dirname, '../config/products.json'),
+    //     JSON.stringify(productsData)
+    // )
+
+    return productData.create(cube);
 };
 
 module.exports = {
